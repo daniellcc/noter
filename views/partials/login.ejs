@@ -1,0 +1,12 @@
+<form action="/login" method="post">
+  <h2>Login</h2>
+  <label for="email" class="form-label">Email:</label>
+  <input type="email" name="email" id="email" class="form-control">
+  <label for="password" class="form-label">Password:</label>
+  <input type="password" name="password" id="password" class="form-control">
+  <button type="submit" class="btn btn-primary mt-3">Log in</button>
+</form>
+
+<% if (locals.message) { %>
+ <p><%= locals.message%></p>
+<% } %>

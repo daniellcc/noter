@@ -1,0 +1,46 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.img {
+  width:auto;
+  height: 200px;
+  object-fit: cover;
+}
+
+nav a:hover {
+  background-color: rgb(0, 110, 255);
+  color: white
+}
+
+.mobileMenu {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.mobileMenu .nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 100;
+  margin-bottom: 2rem;
+}
+
+@media screen and (min-width: 800px) {
+  .mobileMenu {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .menu {
+    display: none;
+  }
+  .mobileMenu {
+    display: block;
+  }
+}

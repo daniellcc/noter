@@ -1,0 +1,49 @@
+<%- include('../partials/header.ejs') %>
+
+<div class="container">
+  <div class="row">
+    <%- include('../partials/menu.ejs') %>
+
+    <div class="col" style="max-width: 35rem">
+      <% if(locals.uploadImg) { %>
+        <h2>Upload image</h2>
+        <form action="/upload-img" method="POST" enctype="multipart/form-data">
+          <input type="file" name="img" id="img" class="form-control">
+          <button type="submit" class="btn btn-primary mt-2">Add</button>
+        </form>
+
+        <% if(locals.invalidFile) { %>
+          <p>The file is not an image!</p>
+        <% } %>
+
+      <% } if(locals.addNote) { %>
+        <h2>Add note</h2>
+        <form action="/add-note" method="POST">
+          <label for="title" class="form-label">Title</label>
+          <input type="text" name="title" id="title" class="form-control bg-light p-3">
+
+          <label for="text" class="form-label">Text</label>
+          <input type="text" name="text" id="text" class="form-control bg-light p-3">
+          <button type="submit" class="btn btn-primary mt-2">Add</button>
+        </form>
+      <% } if(locals.editNote) {%>
+        <h2>Edit "<%= locals.title %>"</h2>
+        <date class="form-label mb-2">Date: <%= locals.date %></date>
+        <form action="/edit-note/<%= locals.id %>" method="POST">
+          <label for="title" class="form-label">Title</label>
+          <input type="text" value="<%= locals.title %>" name="title" id="title" class="form-control bg-light p-3">
+
+          <label for="text" class="form-label">Text</label>
+          <input type="text" value="<%= locals.text %>" name="text" id="text" class="form-control bg-light p-3">
+          <button type="submit" class="btn btn-primary mt-2">Update</button>
+          <a href="/delete-note/<%= locals.id %>" class="btn btn-danger ms-5">
+            <i class="bi bi-trash"></i>
+          </a>
+        </form>
+      <% } %> 
+    </div>
+  </div>
+</div>
+
+
+<%- include('../partials/footer.ejs') %> 
