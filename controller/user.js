@@ -13,7 +13,8 @@ module.exports = {
     pool.getConnection((err, connection) => {
       if(err) throw err
       connection.query(
-        `SELECT * FROM notes WHERE userID = (SELECT id FROM users WHERE id = ${req.user.id})`,
+        'SELECT * FROM notes WHERE userID = (SELECT id FROM users WHERE id = ?)',
+        req.user.id,
         (err, result) => {
         if(err) throw err
         res.render('user/notes', { notes: result })
@@ -35,9 +36,10 @@ module.exports = {
       if(err) throw err
       connection.query(
         `INSERT INTO notes 
-          SET title = "${note.title}",
-          text = "${note.text}",
-          userID = (SELECT id FROM users WHERE id = ${userID})`,
+          SET title = ?,
+          text = ?,
+          userID = (SELECT id FROM users WHERE id = ?)`,
+          [note.title, note.text, userID],
         (err, result) => {
           if(err) throw err
           res.redirect('/dashboard/notes')
@@ -53,7 +55,7 @@ module.exports = {
     pool.getConnection((err, connection) => {
       if(err) throw err
       connection.query(
-        `SELECT * FROM notes WHERE noteID = ${noteID}`,
+        'SELECT * FROM notes WHERE noteID = ?', noteID,
         (err, result) => {
           if(err) throw err
           const note = result[0]
@@ -79,8 +81,9 @@ module.exports = {
       if(err) throw err
       connection.query(
         `UPDATE notes
-        SET title = "${note.title}", text = "${note.text}"
-        WHERE noteID = ${noteID}`,
+        SET title = ?, text = ?
+        WHERE noteID = ?`,
+        [note.title, note.text, noteID],
         (err, result) => {
           if(err) throw err
           res.redirect('/dashboard/notes')
@@ -97,7 +100,8 @@ module.exports = {
     pool.getConnection((err, connection) => {
       if(err) throw err
       connection.query(
-        `DELETE FROM notes WHERE noteID = ${noteID} AND userID = ${userID}`,
+        'DELETE FROM notes WHERE noteID = ? AND userID = ?',
+        [noteID, userID],
         (err, result) => {
           if(err) throw err
           res.redirect('/dashboard/notes')
@@ -113,7 +117,8 @@ module.exports = {
     pool.getConnection((err, connection) => {
       if(err) throw err
       connection.query(
-        `SELECT * FROM images WHERE userID = (SELECT id FROM users WHERE id = ${userID})`,
+        'SELECT * FROM images WHERE userID = (SELECT id FROM users WHERE id = ?',
+        userID,
         (err, results) => {
           if(err) throw err
           res.locals.images = results
@@ -138,10 +143,11 @@ module.exports = {
       if(err) throw err
       connection.query(
         `INSERT INTO images
-        SET name = "${file.originalname}",
-        fileName = "${file.filename}",
-        path = "${path}",
-        userID = (SELECT id FROM users WHERE id = ${userID})`,
+        SET name = ?,
+        fileName = ?,
+        path = ?,
+        userID = (SELECT id FROM users WHERE id = ?)`,
+        [file.originalname, file.filename, path, userID],
         (err, result) => {
           if (err) throw err
           res.redirect('/dashboard/images')
@@ -157,7 +163,8 @@ module.exports = {
 
     pool.getConnection((err, connection) => {
       connection.query(
-        `DELETE FROM images WHERE imgID = ${imgID} AND userID = ${userID}`,
+        'DELETE FROM images WHERE imgID = ? AND userID = ?',
+        [imgID, userID],
         (err, result) => {
           if(err) throw err
           res.redirect('/dashboard/images')
@@ -180,8 +187,9 @@ module.exports = {
       if(err) throw err
       connection.query(
         `UPDATE users
-        SET name = "${name}"
-        WHERE id = ${id}`,
+        SET name = ?
+        WHERE id = ?`,
+        [name, id],
         (err, result) => {
           if(err) throw err
           res.redirect('/dashboard')
