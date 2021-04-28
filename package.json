@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "NODE_ENV=development && nodemon app.js"
+    "start": "SET NODE_ENV=production && node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "Daniel C. Cardona",
