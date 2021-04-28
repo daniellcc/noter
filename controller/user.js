@@ -117,7 +117,7 @@ module.exports = {
     pool.getConnection((err, connection) => {
       if(err) throw err
       connection.query(
-        'SELECT * FROM images WHERE userID = (SELECT id FROM users WHERE id = ?',
+        'SELECT * FROM images WHERE userID = (SELECT id FROM users WHERE id = ?)',
         userID,
         (err, results) => {
           if(err) throw err
