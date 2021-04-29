@@ -1,13 +1,11 @@
 const session = require('express-session')
 const MySQLStore = require('express-mysql-session')(session)
+const dbEnv = require('./db_env')()
 
 module.exports = connection => {
   const sessionStore = new MySQLStore({
     createDatabaseTable: true,
-    database: 'app',
-    host: 'localhost',
-    user: 'root',
-    password: '',
+    dbEnv,
     schema: {
       tableName: 'sessions',
       columnNames: {
