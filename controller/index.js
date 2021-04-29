@@ -10,6 +10,11 @@ module.exports = {
   },
 
   register: async (req, res) => {
+    if(!req.body.name || !req.body.email || !req.body.password) {
+      res.locals.invalidForm = true
+      return res.render('home')
+    }
+
     const bcrypt = require('bcrypt')
     const pool = require('../config/db')
 
@@ -31,15 +36,22 @@ module.exports = {
     })
   },
 
-  login: (req, res) => {
+  login: (req, res, next) => {
     const passport = require('passport')
     
-    passport.authenticate('local', {
-      failureRedirect: '/',
-      successRedirect: '/dashboard'
-    })
-    
-    (req, res)
+    passport.authenticate('local', (err, user, info) => {
+      if(err) return next(err)
+
+      if(!user) {
+        res.locals.invalidUser = true
+        return res.render('home')
+      }
+      
+      req.logIn(user, err => {
+        if(err) return next(err)
+        return res.redirect('/dashboard')
+      })
+    })(req, res, next)
   },
 
   logout: (req, res) => {
