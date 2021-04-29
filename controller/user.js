@@ -39,7 +39,7 @@ module.exports = {
           SET title = ?,
           text = ?,
           userID = (SELECT id FROM users WHERE id = ?),
-          date_added = SELECT CURDATE()`,
+          date_added = (SELECT CURDATE())`,
           [note.title, note.text, userID],
         (err, result) => {
           if(err) throw err
