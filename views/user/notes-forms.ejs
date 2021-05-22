@@ -1,0 +1,53 @@
+<%- include('../partials/header.ejs') %>
+
+<div class="container">
+  <div class="row">
+    <%- include('../partials/menu.ejs') %>
+
+    
+
+      <% if(locals.addNote) { %>
+        <div class="col ">
+        <h2>Add note</h2>
+        <form action="/add-note" method="POST">
+          <label for="title" class="form-label">Title</label>
+          <input type="text" name="title" id="title" class="form-control">
+          <label for="text" class="form-label">Text</label>
+          <textarea name="text" id="text" cols="30" rows="10" class="form-control"></textarea>
+          <button type="submit" class="btn btn-primary mt-2">Add</button>
+          <% if(locals.emptyFields) { %>
+            <p class="text-danger">The note needs a title and some text</p>
+          <% } %>
+        </form>
+        </div>
+      <% } if(locals.editNote) {%>
+        <div class="col">
+
+        
+        <h2>Edit "<%= locals.title %>"</h2>
+        <date class="mb-4"><%= locals.date %></date>
+        <form action="/edit-note/<%= locals.id %>" method="POST">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" value="<%= locals.title %>" name="title" id="title" class="form-control">
+
+            <label for="text" class="form-label">Text</label>
+            <textarea name="text" id="text" cols="30" rows="10" class="form-control">
+              <%= locals.text %>
+            </textarea>
+            <button type="submit" class="btn btn-primary mt-2">Update</button>
+            <a href="/delete-note/<%= locals.id %>" class="btn btn-danger ms-5">
+              <i class="bi bi-trash"></i>
+            </a>
+            <% if(locals.emptyFields) { %>
+              <p class="text-danger">The note needs a title and some text</p>
+            <% } %>
+        </form>
+      </div>
+      <% } %> 
+
+    </div>
+  </div>
+</div>
+
+
+<%- include('../partials/footer.ejs') %> 

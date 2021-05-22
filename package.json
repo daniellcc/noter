@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "noter",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -14,18 +14,17 @@
     "nodemon": "^2.0.7"
   },
   "dependencies": {
+    "@google-cloud/storage": "^5.8.5",
     "bcrypt": "^5.0.1",
-    "compression": "^1.7.4",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-mysql-session": "^2.1.5",
     "express-session": "^1.17.1",
+    "express-validator": "^6.11.1",
     "helmet": "^4.5.0",
-    "multer": "^1.4.2",
-    "mysql": "^2.18.1",
+    "mysql": "^2.16.0",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
-    "uid-safe": "^2.1.5"
+    "passport-local": "^1.0.0"
   }
 }

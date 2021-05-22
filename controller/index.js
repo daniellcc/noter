@@ -1,5 +1,7 @@
 'use strict'
 
+const { validRegister } = require('../config/auth-forms-validator')
+
 module.exports = {
   renderHome: (req, res) => {
     res.render('home')
@@ -10,7 +12,7 @@ module.exports = {
   },
 
   register: async (req, res) => {
-    if(!req.body.name || !req.body.email || !req.body.password) {
+    if(!validRegister(req)) {
       res.locals.invalidForm = true
       return res.render('home')
     }
@@ -39,7 +41,7 @@ module.exports = {
   login: (req, res, next) => {
     const passport = require('passport')
     
-    passport.authenticate('local', (err, user, info) => {
+    passport.authenticate('local', (err, user) => {
       if(err) return next(err)
 
       if(!user) {
@@ -53,7 +55,7 @@ module.exports = {
       })
     })(req, res, next)
   },
-
+ 
   logout: (req, res) => {
     req.session.destroy()
     req.logout()

@@ -1,18 +1,75 @@
+:root {
+  --primary-color:  #1266f1
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-.img {
-  width:auto;
-  height: 200px;
-  object-fit: cover;
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'Poppins', sans-serif;
+  word-break: break-all;
+}
+
+a, p, input {
+  font-family: 'Roboto', sans-serif;
+}
+
+input {
+  padding: .5rem !important;
+}
+
+form {
+  margin-bottom: 2rem;
+}
+
+.card {
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  border-radius: 1rem;
+}
+
+.form-label {
+  margin-top: .3rem;
+}
+.form-control {
+  border: none;
+  background-color: rgb(238, 238, 238);
 }
 
 nav a:hover {
   background-color: rgb(0, 110, 255);
   color: white
+}
+
+.note {
+  color: black;
+  transition: all .2s;
+}
+
+.note .card-title {
+  font-family: 'Amatic SC', cursive;
+}
+
+.note .note-text {
+  white-space: pre-wrap;
+  max-height: min-content;
+}
+
+.note .note-link {
+  transition: all .2s;
+  background-color: var(--primary-color);
+  color: white;
+  width: min-content;
+  padding: .3rem 1rem;
+  border-bottom-right-radius: .8rem;
+  margin-left: auto;
+  text-align: end;
+}
+
+.note .note-link:hover {
+  box-shadow: rgba(134, 134, 134, 0.4) 5px 5px
 }
 
 .mobileMenu {

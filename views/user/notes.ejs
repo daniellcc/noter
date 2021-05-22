@@ -3,22 +3,12 @@
 <%- include('../partials/menu.ejs') %>
 
 <div class="col">
-  <div class="ms-3 d-flex justify-content-start align-items-center">
+  <div class="d-flex justify-content-start align-items-center">
     <h2>Notes</h2>
     <a href="/dashboard/notes/add-note"><i class="bi bi-plus mx-2"></i>Add note</a>
   </div>
   <% notes.forEach(note => { %>
-    <article class="card mt-4">
-      <div class="card-body">
-        <div class="d-flex align-items-center">
-          <h3 class="card-title"><%= note.title %></h3>
-          <date class="ms-3"><small><%= note.date_added %></small></date>
-        </div>
-        
-        <p class="card-text"><%= note.text %></p>
-        <a href="/dashboard/notes/edit-note/<%= note.noteID %>" class="btn btn-primary">Edit note</a>
-      </div>
-    </article>
+    <%- include('./note.ejs', {note: note}) %>     
   <% }) %>
 </div>
 

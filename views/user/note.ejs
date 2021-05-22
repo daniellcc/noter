@@ -1,0 +1,8 @@
+<article class="card mt-4 note">
+  <div class="card-body note-body">
+    <h3 class="card-title note-title"><%= note.title %></h3>
+    <date><small><%= note.date_added %></small></date>
+    <p class="card-text note-text"><%= note.text %></p>
+  </div>
+  <a href="/dashboard/notes/edit-note/<%= note.noteID %>" class="note-link">See</a>
+</article>

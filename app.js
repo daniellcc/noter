@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 const pool = require('./config/db')
 const path = require('path')
-const compression = require('compression')
 const helmet = require('helmet')
 
 // enviroment variables
@@ -15,7 +14,6 @@ app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(compression())
 app.use(helmet())
 
 app.disable('x-powered-by')
@@ -39,6 +37,7 @@ app.use(passport.session())
 require('./router/index')(app) // general routes
 require('./router/user')(app) // user routes
 require('./router/404')(app) // 404 not found
+
 
 // server listener
 const PORT = process.env.PORT || 3000

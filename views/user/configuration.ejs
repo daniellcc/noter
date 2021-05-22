@@ -3,36 +3,32 @@
 <%- include('../partials/menu.ejs') %>
     
 <div class="col">
-  <h2 class="ms-3">Configuration</h2>
-  <div class="card">
-    <div class="card-body">
+  <h2>Configuration</h2>
 
-      <form action="/change-name" method="POST" class="m-3">
-        <h3>Edit name</h3>
-        <input type="text" name="name" id="name" value="<%= locals.name %>" class="form-control">
-        <button type="submit" class="btn btn-primary mt-2">Save</button>
-      </form>
+  <form action="/change-name" method="POST" >
+    <h3>Edit name</h3>
+    <input type="text" name="name" id="name" value="<%= locals.name %>" class="form-control">
+    <button type="submit" class="btn btn-primary mt-2">Save</button>
+  </form>
 
-      <form action=/change-password" method="POST" class="m-3">
-        <h3>Change password</h3>
-        <label for="password" class="form-label">Current password</label>
-        <input type="text" name="password" id="password" class="form-control">
-        <label for="password" class="form-label">New password</label>
-        <input type="text" name="new_password" id="password" class="form-control">
-        <button type="submit" class="btn btn-primary mt-2">Save</button>
-      </form>
+  <form action=/change-password" method="POST" >
+    <h3>Change password</h3>
+    <label for="password" class="form-label">Current password</label>
+    <input type="text" name="password" id="password" class="form-control">
+    <label for="password" class="form-label">New password</label>
+    <input type="text" name="new_password" id="password" class="form-control">
+    <button type="submit" class="btn btn-primary mt-2">Save</button>
+  </form>
 
-      <% if (locals.wrongPassword) { %>
-        <p>Wrong password!!</p>
-      <% } %>
+  <% if (locals.wrongPassword) { %>
+    <p>Wrong password!!</p>
+  <% } %>
 
-      <div class="m-3">
-        <h3>Delete account</h3>
-        <p><small>Warning: you'll lose all your data</small> </p>
-        <a href="/delete-account" class="btn btn-danger">Delete</a>
-      </div>
-    </div>
-  </div>
+  <form >
+    <h3>Delete account</h3>
+    <p class="text-danger"><small>Warning: you'll lose all your data</small> </p>
+    <a href="/delete-account" class="btn btn-danger">Delete</a>
+  </form>
 </div>
 
 <%- include('../partials/footer.ejs') %>
