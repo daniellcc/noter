@@ -3,7 +3,7 @@
 const dashboardCtrlr = require('../controller/dashboard')
 const notesCtrlr = require('../controller/notes')
 const configCtrlr = require('../controller/configuration')
-const auth = require('../config/auth')
+const auth = require('../config/validators/auth')
 
 module.exports = app => {
   //dashboard
@@ -20,6 +20,5 @@ module.exports = app => {
   //config
   app.get('/dashboard/configuration', auth.loggedIn, configCtrlr.renderConfiguration)
   app.post('/change-name', configCtrlr.changeName)
-  app.post('/change-password', configCtrlr.changePassword)
   app.get('/delete-account', configCtrlr.deleteAccount)
 }

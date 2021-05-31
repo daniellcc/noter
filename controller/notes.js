@@ -1,7 +1,7 @@
 'use strict'
 
-const pool = require('../config/db')
-const { validNote } = require('../config/auth-forms-validator')
+const pool = require('../config/database/db')
+const emptyFormsValidator = require('../config/validators/empty-forms-validator')
 
 module.exports = {
   renderNotes: (req, res) => {
@@ -25,22 +25,23 @@ module.exports = {
   },
 
   addNote: (req, res) => {
-    if(!validNote(req)) {
+    const completedForm = emptyFormsValidator(req.body)
+
+    if(!completedForm) {
       res.locals.emptyFields = true
       return module.exports.renderAddNote(req, res)
     }
+
     const note = req.body
     const userID = req.user.id
   
     pool.getConnection((err, connection) => {
       if(err) throw err
       connection.query(
-        `INSERT INTO notes 
-          SET title = ?,
-          text = ?,
-          userID = (SELECT id FROM users WHERE id = ?),
-          date_added = (SELECT CURDATE())`,
-          [note.title, note.text, userID],
+        `INSERT INTO notes SET title = ?, text = ?,
+        userID = (SELECT id FROM users WHERE id = ?),
+        date_added = (SELECT CURDATE())`,
+        [note.title, note.text, userID],
         (err, result) => {
           if(err) throw err
           res.redirect('/dashboard/notes')
@@ -60,35 +61,29 @@ module.exports = {
         (err, result) => {
           if(err) throw err
           const note = result[0]
-          res.render('user/notes-forms', {
-            editNote: true,
-            title: note.title,
-            date: note.date_added,
-            text: note.text,
-            id: noteID
-          })
+          res.locals.note = note
+          res.render('user/notes-forms')
           connection.release()
         }
       )
-      
     })
   },
 
   editNote: (req, res) => {
-    if(!validNote(req)) {
+    const completedForm = emptyFormsValidator(req.body)
+
+    if(!completedForm) {
       res.locals.emptyFields = true
       return module.exports.renderEditNote(req, res)
     }
 
     const noteID = req.params.id
     const note = req.body
-    
+
     pool.getConnection((err, connection) => {
       if(err) throw err
       connection.query(
-        `UPDATE notes
-        SET title = ?, text = ?
-        WHERE noteID = ?`,
+        'UPDATE notes SET title = ?, text = ? WHERE noteID = ?',
         [note.title, note.text, noteID],
         (err, result) => {
           if(err) throw err
@@ -96,7 +91,6 @@ module.exports = {
           connection.release()
         }
       )
-      
     })
   },
 

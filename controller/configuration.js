@@ -1,7 +1,7 @@
 'use strict'
 
-const pool = require('../config/db')
-const bcrypt = require('bcrypt')
+const pool = require('../config/database/db')
+const emptyFormsValidator = require('../config/validators/empty-forms-validator')
 
 module.exports = {
   renderConfiguration: (req, res) => {
@@ -10,6 +10,12 @@ module.exports = {
   },
 
   changeName: (req, res) => {
+    const completedForm = emptyFormsValidator(req.body)
+    if(!completedForm) {
+      res.locals.emptyName = true
+      return module.exports.renderConfiguration(req, res)
+    }
+
     const name = req.body.name
     const id = req.user.id
     
@@ -21,41 +27,6 @@ module.exports = {
         (err, result) => {
           if(err) throw err
           res.redirect('/dashboard')
-          connection.release()
-        }
-      )
-    })
-  },
-
-  changePassword: (req, res) => {
-    const { password, new_password } = req.body
-    const id = req.user.id
-
-    pool.getConnection((err, connection) => {
-      if(err) throw err
-      connection.query(
-        'SELECT * FROM users WHERE userID = ?', id,
-        async (err, result) => {
-          if (err) throw err
-
-          const user = result[0]
-          const validPassword = await bcrypt.compare(password, user.password)
-
-          if (validPassword) {
-            const encryptedPassword = await bcrypt.hash(new_password, 10)
-
-            connection.query(
-              'UPDATE users SET password = ? WHERE userID = ?', [encryptedPassword, id],
-              (err, result) => {
-                if (err) throw err
-                res.redirect('/logout')
-              }
-            )
-          }
-          else {
-            res.locals.wrongPassword = true
-            await res.render('user/configuration')
-          }
           connection.release()
         }
       )

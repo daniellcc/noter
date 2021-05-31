@@ -4,15 +4,21 @@
   <div class="row mt-5 bg-white">
     <div class="col-sm-12 col-md-6">
       <%- include("partials/login.ejs") %> 
+
       <% if (locals.invalidUser) { %>
         <p class="text-danger">Email or password incorrect.</p>
-       <% } %>
+      <% } %>
     </div>
+
     <div class="col">
       <%- include("partials/register.ejs") %> 
+
       <% if (locals.invalidForm) { %>
         <p class="text-danger">Verify all the fields.</p>
-       <% } %>
+      <% } %>
+      <% if (locals.takedEmail) { %>
+        <p class="text-danger">This email has already been used.</p>
+      <% } %>
     </div>
   </div>
 </div>

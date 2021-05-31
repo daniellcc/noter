@@ -10,18 +10,8 @@
     <input type="text" name="name" id="name" value="<%= locals.name %>" class="form-control">
     <button type="submit" class="btn btn-primary mt-2">Save</button>
   </form>
-
-  <form action=/change-password" method="POST" >
-    <h3>Change password</h3>
-    <label for="password" class="form-label">Current password</label>
-    <input type="text" name="password" id="password" class="form-control">
-    <label for="password" class="form-label">New password</label>
-    <input type="text" name="new_password" id="password" class="form-control">
-    <button type="submit" class="btn btn-primary mt-2">Save</button>
-  </form>
-
-  <% if (locals.wrongPassword) { %>
-    <p>Wrong password!!</p>
+  <% if(locals.emptyName) { %>
+    <p class="text-danger">Set a name</p> 
   <% } %>
 
   <form >

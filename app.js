@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const pool = require('./config/db')
+const pool = require('./config/database/db')
 const path = require('path')
 const helmet = require('helmet')
 
@@ -23,7 +23,7 @@ const connection = pool.getConnection((err, connection) => {
   if(err) throw err
   connection.connect()
 })
-const sessionStore = require('./config/session-store')(connection)
+const sessionStore = require('./config/database/session-store')(connection)
 app.use(sessionStore)
 
 // passport

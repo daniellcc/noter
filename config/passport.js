@@ -1,5 +1,5 @@
 const LocalStrategy = require('passport-local').Strategy
-const pool = require('./db')
+const pool = require('./database/db')
 
 module.exports = passport => {
   passport.use(new LocalStrategy(

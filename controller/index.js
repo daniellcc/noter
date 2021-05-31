@@ -1,7 +1,5 @@
 'use strict'
 
-const { validRegister } = require('../config/auth-forms-validator')
-
 module.exports = {
   renderHome: (req, res) => {
     res.render('home')
@@ -12,17 +10,10 @@ module.exports = {
   },
 
   register: async (req, res) => {
-    if(!validRegister(req)) {
-      res.locals.invalidForm = true
-      return res.render('home')
-    }
-
-    const bcrypt = require('bcrypt')
     const pool = require('../config/db')
-
-    const hashedPass = await bcrypt.hash(req.body.password, 10)
+    const bcrypt = require('bcrypt')
     const user = req.body
-    user.password = hashedPass
+    user.password = await bcrypt.hash(req.body.password, 10)
 
     pool.getConnection((err, connection) => {
       if(err) throw err
@@ -32,9 +23,9 @@ module.exports = {
         (err, result) => {
           if(err) throw err
           res.redirect('/')
+          connection.release()
         }
       )
-      connection.release()
     })
   },
 
