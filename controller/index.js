@@ -13,7 +13,12 @@ module.exports = {
     const pool = require('../config/db')
     const bcrypt = require('bcrypt')
     const user = req.body
-    user.password = await bcrypt.hash(req.body.password, 10)
+    try {
+      user.password = await bcrypt.hash(req.body.password, 10)
+    } catch(err) {
+      throw err
+    }
+    
 
     pool.getConnection((err, connection) => {
       if(err) throw err

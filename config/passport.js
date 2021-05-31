@@ -42,8 +42,8 @@ module.exports = passport => {
         'SELECT * FROM users WHERE id = ?', id,
         (err, result) => {
           if(err) throw err
-
           const user = result[0];
+          
           return done(err, user)
         }
       )
