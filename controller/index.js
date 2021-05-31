@@ -10,15 +10,11 @@ module.exports = {
   },
 
   register: async (req, res) => {
-    const pool = require('../config/db')
+    const pool = require('../config/database/db')
     const bcrypt = require('bcrypt')
     const user = req.body
-    try {
-      user.password = await bcrypt.hash(req.body.password, 10)
-    } catch(err) {
-      throw err
-    }
     
+    user.password = await bcrypt.hash(req.body.password, 10)
 
     pool.getConnection((err, connection) => {
       if(err) throw err
